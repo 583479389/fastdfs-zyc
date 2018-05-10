@@ -97,14 +97,14 @@ public class StructureAction {
     private String getTrackForStruct() {
         String result = "";
         try {
-            ClientGlobal.init(Tools.getClassPath()+"fdfs_client.conf");
+            ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
 
         } catch (IOException e) {
             logger.error("",e);
         } catch (MyException e) {
             logger.error("",e);
         }
-        String configFile = Tools.getClassPath()+"fdfs_client.conf";
+        String configFile = Tools.getResourcePath("fdfs_client.conf");
         FileInputStream fis = null;
         InputStreamReader isr = null;
         Properties p = new Properties();

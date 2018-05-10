@@ -68,7 +68,7 @@
         </div>
     </div>
     <div id="login_footer">
-        Copyright &copy; 2012-2013 有偿服务请联系: QQ 14776405 定制化开发，公司培训，技术支持
+        Copyright &copy; 2012-2018
     </div>
 </div>
 <script>

@@ -124,7 +124,7 @@ public class TestModuleAction {
     @RequestMapping("/downloadByApi")
     public void downloadByApi(String fieldId,String fileName, HttpServletResponse response) throws IOException, MyException {
 
-        ClientGlobal.init(Tools.getClassPath() + "fdfs_client.conf");
+        ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();

@@ -34,21 +34,15 @@ import java.util.*;
  */
 @Service
 public class JobServiceImpl extends BaseService implements JobService {
-
-    private static final Logger logger = LoggerFactory
-            .getLogger(JobServiceImpl.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(JobServiceImpl.class);
 
     @Autowired
     private WarningService warningService;
-
 
     @Autowired
     private FileDataService fileDataService;
 
     Map<String, Date> datemap = new HashMap<String, Date>();
-
-
 
     @Override
     @Scheduled(cron = "0 0/1 * * * ?")
@@ -94,7 +88,7 @@ public class JobServiceImpl extends BaseService implements JobService {
 
         List<Group> result = new ArrayList<Group>();
         // noinspection ConstantConditions
-        ClientGlobal.init(Tools.getClassPath() + "fdfs_client.conf");
+        ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
@@ -136,8 +130,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
             if(machine.isConfigType())
-                strList = Tools.exeRemoteConsole(machine.getIp(),
-                        machine.getUsername(), machine.getPassword(), cmd);
+                strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
                 strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
@@ -146,16 +139,13 @@ public class JobServiceImpl extends BaseService implements JobService {
                         group.setCreated(date);
                         for (Storage storage : group.getStorageList()) {
 
-                            if (machine.getIp().equalsIgnoreCase(
-                                    storage.getIpAddr())) {
-                                String[] strArrray = str.replaceAll(" +", ",")
-                                        .split(",");
+                            if (machine.getIp().equalsIgnoreCase(storage.getIpAddr())) {
+                                String[] strArrray = str.replaceAll(" +", ",").split(",");
                                 storage.setCpu(strArrray[2]);
                                 storage.setMem(Float.parseFloat(strArrray[3]));
                                 storage.setCreated(date);
                                 //warning
                                 warning(storage);
-
                             }
                             warningOffline(storage);
                         }
@@ -172,7 +162,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         List<GroupHour> result = new ArrayList<GroupHour>();
         // noinspection ConstantConditions
 
-        ClientGlobal.init(Tools.getClassPath() + "fdfs_client.conf");
+        ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
@@ -190,13 +180,11 @@ public class JobServiceImpl extends BaseService implements JobService {
         for (StructGroupStat groupStat : groupStats) {
             GroupHour group = new GroupHour();
             BeanUtils.copyProperties(groupStat, group);
-            StructStorageStat[] storageStats = tracker.listStorages(
-                    trackerServer, groupStat.getGroupName());
+            StructStorageStat[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
             for (StructStorageStat storageStat : storageStats) {
                 StorageHour storage = new StorageHour();
                 BeanUtils.copyProperties(storageStat, storage);
-                storage.setCurStatus(ProtoCommon
-                        .getStorageStatusCaption(storageStat.getStatus()));
+                storage.setCurStatus(ProtoCommon.getStorageStatusCaption(storageStat.getStatus()));
                 storage.setId(null);
                 System.out.println("getGroupInfoByHour: storageId:"+storage.getId());
                 storage.setGroup(group);
@@ -210,8 +198,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
             if(machine.isConfigType())
-                strList = Tools.exeRemoteConsole(machine.getIp(),
-                        machine.getUsername(), machine.getPassword(), cmd);
+                strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
                 strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
@@ -219,10 +206,8 @@ public class JobServiceImpl extends BaseService implements JobService {
                     for (GroupHour group : result) {
                         group.setCreated(date);
                         for (StorageHour storage : group.getStorageList()) {
-                            if (machine.getIp().equalsIgnoreCase(
-                                    storage.getIpAddr())) {
-                                String[] strArrray = str.replaceAll(" +", ",")
-                                        .split(",");
+                            if (machine.getIp().equalsIgnoreCase(storage.getIpAddr())) {
+                                String[] strArrray = str.replaceAll(" +", ",").split(",");
                                 storage.setCpu(strArrray[2]);
                                 storage.setMem(Float.parseFloat(strArrray[3]));
                                 storage.setCreated(date);
@@ -240,7 +225,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         // noinspection ConstantConditions
 
 
-        ClientGlobal.init(Tools.getClassPath() + "fdfs_client.conf");
+        ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
@@ -250,22 +235,19 @@ public class JobServiceImpl extends BaseService implements JobService {
         }
         StructGroupStat[] groupStats = tracker.listGroups(trackerServer);
         if (groupStats == null) {
-            logger.error("ERROR! list groups error, error no: "
-                    + tracker.getErrorCode());
+            logger.error("ERROR! list groups error, error no: " + tracker.getErrorCode());
             return result;
         }
         logger.info("group count: " + groupStats.length);
         for (StructGroupStat groupStat : groupStats) {
             GroupDay group = new GroupDay();
             BeanUtils.copyProperties(groupStat, group);
-            StructStorageStat[] storageStats = tracker.listStorages(
-                    trackerServer, groupStat.getGroupName());
+            StructStorageStat[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
             for (StructStorageStat storageStat : storageStats) {
                 StorageDay storage = new StorageDay();
                 BeanUtils.copyProperties(storageStat, storage);
 
-                storage.setCurStatus(ProtoCommon
-                        .getStorageStatusCaption(storageStat.getStatus()));
+                storage.setCurStatus(ProtoCommon.getStorageStatusCaption(storageStat.getStatus()));
                 storage.setGroup(group);
                 storage.setId(null);
                 storage.setGroupName(group.getGroupName());
@@ -279,8 +261,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
             if(machine.isConfigType())
-                strList = Tools.exeRemoteConsole(machine.getIp(),
-                        machine.getUsername(), machine.getPassword(), cmd);
+                strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
                 strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
@@ -288,10 +269,8 @@ public class JobServiceImpl extends BaseService implements JobService {
                     for (GroupDay group : result) {
                         group.setCreated(date);
                         for (StorageDay storage : group.getStorageList()) {
-                            if (machine.getIp().equalsIgnoreCase(
-                                    storage.getIpAddr())) {
-                                String[] strArrray = str.replaceAll(" +", ",")
-                                        .split(",");
+                            if (machine.getIp().equalsIgnoreCase(storage.getIpAddr())) {
+                                String[] strArrray = str.replaceAll(" +", ",").split(",");
                                 storage.setCpu(strArrray[2]);
                                 storage.setMem(Float.parseFloat(strArrray[3]));
                                 storage.setCreated(date);

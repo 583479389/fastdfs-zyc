@@ -320,7 +320,7 @@
 
 </div>
 
-<div id="footer">Copyright &copy; 2012-2013 有偿服务请联系: QQ 14776405 定制化开发，公司培训，技术支持</div>
+<div id="footer">Copyright &copy; 2012-2018</div>
 
 </body>
 </html>

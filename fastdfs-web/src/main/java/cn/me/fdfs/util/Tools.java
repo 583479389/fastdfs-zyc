@@ -10,6 +10,8 @@ import org.dom4j.Element;
 import org.dom4j.io.SAXReader;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.DefaultResourceLoader;
+import org.springframework.core.io.support.ResourcePatternUtils;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -26,6 +28,7 @@ public class Tools {
 
     private static final Logger logger = LoggerFactory.getLogger(Tools.class);
     public static List<Machine> machines;
+
     public static List<String> exeRemoteConsole(String hostname, String username, String password, String cmd) {
         List<String> result = new ArrayList<String>();
         //指明连接主机的IP地址
@@ -63,42 +66,55 @@ public class Tools {
         }
         return result;
     }
+
     public static String getRootPath() {
         String classPath = Tools.class.getClassLoader().getResource("/").getPath();
-        String rootPath  = "";
+        String rootPath = "";
         //windows下
-        if("\\".equals(File.separator)){
-            rootPath  = classPath.substring(1,classPath.indexOf("/WEB-INF/classes"));
+        if ("\\".equals(File.separator)) {
+            rootPath = classPath.substring(1, classPath.indexOf("/WEB-INF/classes"));
             rootPath = rootPath.replace("/", "\\");
         }
         //linux下
-        if("/".equals(File.separator)){
-            rootPath  = classPath.substring(0,classPath.indexOf("/WEB-INF/classes"));
+        if ("/".equals(File.separator)) {
+            rootPath = classPath.substring(0, classPath.indexOf("/WEB-INF/classes"));
             rootPath = rootPath.replace("\\", "/");
         }
         return rootPath;
     }
-    public static String getClassPath(){
+
+    public static String getClassPath() {
         String classPath = Tools.class.getClassLoader().getResource("/").getPath();
 
         //windows下
-        if("\\".equals(File.separator)){
+        if ("\\".equals(File.separator)) {
 
             classPath = classPath.replace("/", "\\");
         }
         //linux下
-        if("/".equals(File.separator)){
+        if ("/".equals(File.separator)) {
 
             classPath = classPath.replace("\\", "/");
         }
         return classPath;
     }
 
+    public static String getResourcePath(String fileName) {
+        String classPath = "";
+        try{
+            classPath = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader()).getResource(fileName).getURL().getFile();
+        }catch(IOException ex){
+            logger.error("获取fdfs_client.conf文件路径出错",ex);
+        }
+        return classPath;
+    }
+
+
     static {
         SAXReader saxReader = new SAXReader();
         try {
             System.out.println(Tools.getClassPath());
-            Document document = saxReader.read(Tools.getClassPath() + "config.xml");
+            Document document = saxReader.read(Tools.getResourcePath("config.xml"));
             Element root = document.getRootElement();
             machines = new ArrayList<Machine>();
             @SuppressWarnings("unchecked")
@@ -107,14 +123,14 @@ public class Tools {
                 Machine machine = new Machine();
                 String ip = element.element("ip").getText();
                 String username = element.element("username").getText();
-                if(element.element("password")!=null){
+                if (element.element("password") != null) {
 
                     String password = element.element("password").getText();
                     machine.setPassword(password);
                     machine.setConfigType(true);      //用户名密码登录
                 }
 
-                if(element.element("ssh")!=null){
+                if (element.element("ssh") != null) {
 
                     String ssh = element.element("ssh").getText();
                     machine.setSsh(ssh);

@@ -33,14 +33,13 @@ import java.util.List;
 @Service
 public class MonitorServiceImpl extends BaseService implements MonitorService {
 
-    private static final Logger logger = LoggerFactory
-            .getLogger(MonitorServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(MonitorServiceImpl.class);
 
     @Override
     public List<Group> listGroupInfo() throws IOException, MyException,JSchException {
         List<Group> result = new ArrayList<Group>();
         // noinspection ConstantConditions
-        ClientGlobal.init(Tools.getClassPath() + "fdfs_client.conf");
+        ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
