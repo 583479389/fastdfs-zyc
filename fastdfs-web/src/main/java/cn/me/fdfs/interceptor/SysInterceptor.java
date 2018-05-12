@@ -15,7 +15,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 public class SysInterceptor extends HandlerInterceptorAdapter {
     private static Logger logger = LoggerFactory.getLogger(SysInterceptor.class);
-    public  static String  contentPath = "";
+    private  static String  contentPath = "";
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

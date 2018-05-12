@@ -133,11 +133,12 @@ public class Group {
         this.currentTrunkFileId = currentTrunkFileId;
     }
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Storage.class)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Storage.class)
     public List<Storage> getStorageList() {
         return storageList;
     }
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,fetch = FetchType.LAZY,targetEntity = Storage.class)
+
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.LAZY, targetEntity = Storage.class)
     public void setStorageList(List<Storage> storageList) {
         this.storageList = storageList;
     }

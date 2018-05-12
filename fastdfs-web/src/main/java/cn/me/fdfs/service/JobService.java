@@ -14,7 +14,10 @@ import java.io.IOException;
  */
 public interface JobService {
     void updateGroupByMinute() throws IOException, MyException, JSchException;
+
     void updateGroupByHour() throws IOException, MyException, JSchException;
+
     void updateGroupByDay() throws IOException, MyException, JSchException;
-    void readDataFromLoggerToDataBase()throws  JSchException;
+
+    void readDataFromLoggerToDataBase() throws JSchException;
 }

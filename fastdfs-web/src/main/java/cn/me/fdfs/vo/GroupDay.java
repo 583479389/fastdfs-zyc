@@ -16,7 +16,7 @@ import java.util.List;
  */
 @Entity
 @Table(name = "tbgroupday")
-public class GroupDay  {
+public class GroupDay {
     private String id;
     private String groupName;  //name of this group
     private long freeMB;       //free disk space in MB
@@ -133,7 +133,7 @@ public class GroupDay  {
         this.currentTrunkFileId = currentTrunkFileId;
     }
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<StorageDay> getStorageList() {
         return storageList;
     }

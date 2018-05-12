@@ -35,7 +35,7 @@ public class FileDataAction {
     public ModelAndView fileData() throws IOException, MyException {
         ModelAndView mv = new ModelAndView("dataStructure/fileData.jsp");
         List<Group> list = monitorService.listGroups();
-        Map<String, FileSize> container = new HashMap<String,FileSize>();
+        Map<String, FileSize> container = new HashMap<String, FileSize>();
         for (Group group : list) {
             List<Fdfs_file> files = fileDataService.getFileListByGroupName(group.getGroupName());
             FileSize sizes = new FileSize();
@@ -46,15 +46,14 @@ public class FileDataAction {
                     sizes.setSmall(sizes.getSmall() + 1);
                 } else if (file.getFileSize() >= 100 * 1014 && file.getFileSize() < 500 * 1024) {
                     sizes.setMiddle(sizes.getMiddle() + 1);
-                } else{
-                    sizes.setLarge(sizes.getLarge()+1);
+                } else {
+                    sizes.setLarge(sizes.getLarge() + 1);
                 }
             }
-            container.put(group.getGroupName(),sizes);
+            container.put(group.getGroupName(), sizes);
         }
-        mv.addObject("fileYdm",list);
-        mv.addObject("fileSizes",container);
+        mv.addObject("fileYdm", list);
+        mv.addObject("fileSizes", container);
         return mv;
     }
-
 }

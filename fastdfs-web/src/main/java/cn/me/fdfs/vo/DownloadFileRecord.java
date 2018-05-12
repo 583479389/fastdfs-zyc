@@ -17,10 +17,11 @@ import javax.persistence.Table;
 @Entity
 @Table(name = "tbdownloadfilerecord")
 public class DownloadFileRecord {
-    private  String id;
+    private String id;
     private String fileId;//访问的fileId
     private long accessCount;//被访问次数
     private String src_ip;//所属机器的ip地址
+
     @Id
     @GeneratedValue(generator = "system_uuid")
     @GenericGenerator(name = "system_uuid", strategy = "uuid")

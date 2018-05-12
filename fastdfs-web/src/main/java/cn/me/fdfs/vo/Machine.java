@@ -48,7 +48,6 @@ public class Machine {
 
     public void setPassword(String password) {
         this.password = password;
-
     }
 
     public String getLogpath() {

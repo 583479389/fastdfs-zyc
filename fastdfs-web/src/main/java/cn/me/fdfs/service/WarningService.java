@@ -16,16 +16,25 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface WarningService {
-    void updateWarning(WarningData wd) throws IOException, MyException ;
-    List<WarningData> findWarning() throws IOException, MyException ;
-    List<WarningData> findWarning(WarningData wd, PageInfo pageInfo) throws IOException, MyException ;
-    WarningData findById(String id) throws IOException, MyException ;
-    void delWarning(String id)throws IOException, MyException ;
-    List<WarningData> findByIp(String ip) throws IOException, MyException ;
+    void updateWarning(WarningData wd) throws IOException, MyException;
 
-    List<WarningUser> findWarUser() throws IOException, MyException ;
-    List<WarningUser> findWarUser(WarningUser wu, PageInfo pageInfo) throws IOException, MyException ;
-    WarningUser findUserId(String id) throws IOException, MyException ;
-    void delWarUser(String id)throws IOException, MyException ;
-    void updateWarUser(WarningUser wu) throws IOException, MyException ;
+    List<WarningData> findWarning() throws IOException, MyException;
+
+    List<WarningData> findWarning(WarningData wd, PageInfo pageInfo) throws IOException, MyException;
+
+    WarningData findById(String id) throws IOException, MyException;
+
+    void delWarning(String id) throws IOException, MyException;
+
+    List<WarningData> findByIp(String ip) throws IOException, MyException;
+
+    List<WarningUser> findWarUser() throws IOException, MyException;
+
+    List<WarningUser> findWarUser(WarningUser wu, PageInfo pageInfo) throws IOException, MyException;
+
+    WarningUser findUserId(String id) throws IOException, MyException;
+
+    void delWarUser(String id) throws IOException, MyException;
+
+    void updateWarUser(WarningUser wu) throws IOException, MyException;
 }

@@ -13,15 +13,17 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface FileDataService {
-   List<Fdfs_file> getFileListByGroupName(String groupName);
+    List<Fdfs_file> getFileListByGroupName(String groupName);
 
     /**
-     *   根据ip和fileId去数据库中查找是否存在DownloadFileRecord对象
+     * 根据ip和fileId去数据库中查找是否存在DownloadFileRecord对象
+     *
      * @param ip
      * @param fileId
      * @return
      */
     DownloadFileRecord getDownloadFileRecordByIpAndFileId(String ip, String fileId);
+
     //保存 DownloadFileRecord对象
     void saveDF(DownloadFileRecord downloadFileRecord);
 }

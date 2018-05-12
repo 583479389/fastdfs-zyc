@@ -40,18 +40,16 @@ public class StructureAction {
     private StructureService structureService;
     @Autowired
     private MonitorService monitorService;
-    private static final Logger logger = LoggerFactory
-            .getLogger(StructureAction.class);
-
+    private static final Logger logger = LoggerFactory.getLogger(StructureAction.class);
 
     @RequestMapping("/netStructure")
-    public ModelAndView netStructure() throws JSchException{
+    public ModelAndView netStructure() throws JSchException {
         ModelAndView mv = new ModelAndView("structure/netStructure.jsp");
         try {
             mv.addObject("groupInfo", monitorService.listGroupInfo());
             mv.addObject("trucker", getTrackForStruct());
         } catch (IOException e) {
-           logger.error("",e);
+            logger.error("", e);
         } catch (MyException e) {
             logger.error("", e);
         }
@@ -60,19 +58,19 @@ public class StructureAction {
     }
 
     @RequestMapping("/serverInfo")
-    public ModelAndView serverInfo(String ip) throws IOException, MyException,JSchException {
+    public ModelAndView serverInfo(String ip) throws IOException, MyException, JSchException {
         ModelAndView mv = new ModelAndView("structure/serverInfo.jsp");
-        if(ip.indexOf(":")>=0){
-         String[] data=ip.split(":");
-            ip=data[0];
+        if (ip.indexOf(":") >= 0) {
+            String[] data = ip.split(":");
+            ip = data[0];
         }
-        List<Group> groups=monitorService.listGroupInfo();
-        for(Group group:groups){
-          for(Storage storage:group.getStorageList()){
-              if(storage.getIpAddr().equals(ip)){
-                  mv.addObject("serverInfo", storage);
-              }
-          }
+        List<Group> groups = monitorService.listGroupInfo();
+        for (Group group : groups) {
+            for (Storage storage : group.getStorageList()) {
+                if (storage.getIpAddr().equals(ip)) {
+                    mv.addObject("serverInfo", storage);
+                }
+            }
         }
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         Calendar calendar = Calendar.getInstance();
@@ -81,28 +79,31 @@ public class StructureAction {
         mv.addObject("start", sdf.format(calendar.getTime()));
         return mv;
     }
+
     @ResponseBody
     @RequestMapping("/getForperformanceByIp")
-        public List<Line> getForperformanceByIp(String ip) {
-            List<Line> storageList = structureService.listStorageTopLine(ip);
+    public List<Line> getForperformanceByIp(String ip) {
+        List<Line> storageList = structureService.listStorageTopLine(ip);
         return storageList;
     }
+
     @ResponseBody
     @RequestMapping("/storageInfoForFile")
-      public List<Line>  storageInfoForFile(String ip){
+    public List<Line> storageInfoForFile(String ip) {
         List<Line> storageList = new ArrayList<Line>();
         storageList = structureService.listStorageAboutFile(ip);
         return storageList;
-      }
+    }
+
     private String getTrackForStruct() {
         String result = "";
         try {
             ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
 
         } catch (IOException e) {
-            logger.error("",e);
+            logger.error("", e);
         } catch (MyException e) {
-            logger.error("",e);
+            logger.error("", e);
         }
         String configFile = Tools.getResourcePath("fdfs_client.conf");
         FileInputStream fis = null;
@@ -121,22 +122,20 @@ public class StructureAction {
                 try {
                     fis.close();
                 } catch (IOException e) {
-                    logger.error("",e);
+                    logger.error("", e);
                 }
             }
             if (isr != null) {
                 try {
                     isr.close();
                 } catch (IOException e) {
-                    logger.error("",e);
+                    logger.error("", e);
                 }
             }
         }
 
         result = p.getProperty("tracker_server");
         return result;
-
-
     }
 }
 

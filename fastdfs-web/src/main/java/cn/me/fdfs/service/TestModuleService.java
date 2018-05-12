@@ -14,19 +14,17 @@ import java.util.Map;
  * To change this template use File | Settings | File Templates.
  */
 public interface TestModuleService {
-
     List<Fdfs_file> getAllFileList();
 
     Fdfs_file getFileByFileId(String fileId);
 
     void saveFastFile(Fdfs_file f);
 
-    Map<String,Object[]> getAllFileListByTen(String ip);
+    Map<String, Object[]> getAllFileListByTen(String ip);
 
-  Line getAllFileListForPie(String ip);
+    Line getAllFileListForPie(String ip);
 
     List<Fdfs_file> getAllFileListByPage(String pageNum, String pageSize, String keyForSearch);
 
     int getCountDownLoadFile(String keyForSearch);
-
 }

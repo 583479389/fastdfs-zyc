@@ -22,7 +22,6 @@ import java.util.List;
  */
 @Service
 public class FileDataServiceImpl extends BaseService implements FileDataService {
-
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public List<Fdfs_file> getFileListByGroupName(String groupName) {
@@ -40,17 +39,16 @@ public class FileDataServiceImpl extends BaseService implements FileDataService 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
     public DownloadFileRecord getDownloadFileRecordByIpAndFileId(String ip, String fileId) {
-        DownloadFileRecord downloadFileRecord=new DownloadFileRecord();
+        DownloadFileRecord downloadFileRecord = new DownloadFileRecord();
         Session session = getSession();
-        StringBuilder queryString = new StringBuilder("  from DownloadFileRecord df where df.src_ip='"+ip+"' and df.fileId='"+fileId+"'");
+        StringBuilder queryString = new StringBuilder("  from DownloadFileRecord df where df.src_ip='" + ip + "' and df.fileId='" + fileId + "'");
         Query query = session.createQuery(queryString.toString());
-          List<DownloadFileRecord> list=query.list();
-        if(list.isEmpty()){
+        List<DownloadFileRecord> list = query.list();
+        if (list.isEmpty()) {
             return null;
-        }else {
+        } else {
             return list.get(0);
         }
-
     }
 
     @Override

@@ -36,6 +36,7 @@ public class WarningData implements Serializable {
         this.wdIpAddr = wdIpAddr;
         this.wdGroupName = wdGroupName;
     }
+
     @Id
     @GeneratedValue(generator = "system_uuid")
     @GenericGenerator(name = "system_uuid", strategy = "uuid")

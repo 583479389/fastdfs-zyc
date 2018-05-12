@@ -570,6 +570,7 @@ public class StorageHour {
     public void setIfTrunkServer(boolean ifTrunkServer) {
         this.ifTrunkServer = ifTrunkServer;
     }
+
     @ManyToOne(fetch = FetchType.LAZY)
     public GroupHour getGroup() {
         return group;
@@ -578,6 +579,7 @@ public class StorageHour {
     public void setGroup(GroupHour group) {
         this.group = group;
     }
+
     public Date getCreated() {
         return created;
     }

@@ -61,7 +61,7 @@ public class JobServiceImpl extends BaseService implements JobService {
     @Override
     @Scheduled(cron = "0 0 0/1 * * ?")
     @Transactional(propagation = Propagation.REQUIRED)
-    public void updateGroupByHour() throws IOException, MyException, JSchException{
+    public void updateGroupByHour() throws IOException, MyException, JSchException {
         logger.info("group hour data upate begin...");
         List<GroupHour> groups = getGroupInfoByHour();
         Session session = getSession();
@@ -98,23 +98,21 @@ public class JobServiceImpl extends BaseService implements JobService {
         }
         StructGroupStat[] groupStats = tracker.listGroups(trackerServer);
         if (groupStats == null) {
-            logger.error("ERROR! list groups error, error no: "
-                    + tracker.getErrorCode());
+            logger.error("ERROR! list groups error, error no: " + tracker.getErrorCode());
             return result;
         }
         logger.info("group count: " + groupStats.length);
         for (StructGroupStat groupStat : groupStats) {
             Group group = new Group();
             BeanUtils.copyProperties(groupStat, group);
-            StructStorageStat[] storageStats = tracker.listStorages(
-                    trackerServer, groupStat.getGroupName());
+            StructStorageStat[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
             for (StructStorageStat storageStat : storageStats) {
 
                 Storage storage = new Storage();
 
                 BeanUtils.copyProperties(storageStat, storage);
                 storage.setId(null);
-                System.out.println("getGroupInfoByMinute: storageId:"+storage.getId());
+                System.out.println("getGroupInfoByMinute: storageId:" + storage.getId());
                 storage.setCurStatus(ProtoCommon
                         .getStorageStatusCaption(storageStat.getStatus()));
 
@@ -129,10 +127,10 @@ public class JobServiceImpl extends BaseService implements JobService {
         String cmd = "ps -aux|grep fdfs";
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
-            if(machine.isConfigType())
+            if (machine.isConfigType())
                 strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
-                strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
+                strList = new JsshProxy(machine.getIp(), machine.getUsername(), machine.getPort(), machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
                 if (str.contains("storage.conf")) {
                     for (Group group : result) {
@@ -158,7 +156,7 @@ public class JobServiceImpl extends BaseService implements JobService {
     }
 
 
-    private List<GroupHour> getGroupInfoByHour() throws IOException, MyException,JSchException {
+    private List<GroupHour> getGroupInfoByHour() throws IOException, MyException, JSchException {
         List<GroupHour> result = new ArrayList<GroupHour>();
         // noinspection ConstantConditions
 
@@ -172,8 +170,7 @@ public class JobServiceImpl extends BaseService implements JobService {
         }
         StructGroupStat[] groupStats = tracker.listGroups(trackerServer);
         if (groupStats == null) {
-            logger.error("ERROR! list groups error, error no: "
-                    + tracker.getErrorCode());
+            logger.error("ERROR! list groups error, error no: " + tracker.getErrorCode());
             return result;
         }
         logger.info("group count: " + groupStats.length);
@@ -186,7 +183,7 @@ public class JobServiceImpl extends BaseService implements JobService {
                 BeanUtils.copyProperties(storageStat, storage);
                 storage.setCurStatus(ProtoCommon.getStorageStatusCaption(storageStat.getStatus()));
                 storage.setId(null);
-                System.out.println("getGroupInfoByHour: storageId:"+storage.getId());
+                System.out.println("getGroupInfoByHour: storageId:" + storage.getId());
                 storage.setGroup(group);
                 storage.setGroupName(group.getGroupName());
                 group.getStorageList().add(storage);
@@ -197,10 +194,10 @@ public class JobServiceImpl extends BaseService implements JobService {
         String cmd = "ps -aux|grep fdfs";
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
-            if(machine.isConfigType())
+            if (machine.isConfigType())
                 strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
-                strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
+                strList = new JsshProxy(machine.getIp(), machine.getUsername(), machine.getPort(), machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
                 if (str.contains("storage.conf")) {
                     for (GroupHour group : result) {
@@ -223,8 +220,6 @@ public class JobServiceImpl extends BaseService implements JobService {
     private List<GroupDay> getGroupInfoByDay() throws IOException, MyException, JSchException {
         List<GroupDay> result = new ArrayList<GroupDay>();
         // noinspection ConstantConditions
-
-
         ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
@@ -251,7 +246,7 @@ public class JobServiceImpl extends BaseService implements JobService {
                 storage.setGroup(group);
                 storage.setId(null);
                 storage.setGroupName(group.getGroupName());
-                System.out.println("getGroupInfoByDay: storageId:"+storage.getId());
+                System.out.println("getGroupInfoByDay: storageId:" + storage.getId());
                 group.getStorageList().add(storage);
             }
             result.add(group);
@@ -260,10 +255,10 @@ public class JobServiceImpl extends BaseService implements JobService {
         String cmd = "ps -aux|grep fdfs";
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
-            if(machine.isConfigType())
+            if (machine.isConfigType())
                 strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
-                strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
+                strList = new JsshProxy(machine.getIp(), machine.getUsername(), machine.getPort(), machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
                 if (str.contains("storage.conf")) {
                     for (GroupDay group : result) {
@@ -308,13 +303,13 @@ public class JobServiceImpl extends BaseService implements JobService {
                 List<WarningUser> warningUser = new ArrayList<WarningUser>();
                 warningUser = warningService.findWarUser();
                 for (WarningUser wu : warningUser) {
-                    buildMail.sendWarning("VivaMe维我", wu.getEmail(), "dfs预警报告", stringBuffer.toString());
+                    buildMail.sendWarning("FastDFS", wu.getEmail(), "dfs预警报告", stringBuffer.toString());
                 }
             }
         }
     }
 
-    public void warningOffline(Storage storage) throws IOException, MyException {
+    private void warningOffline(Storage storage) throws IOException, MyException {
         List<WarningData> warningDatas = warningService.findByIp(storage.getIpAddr());
         boolean res = false;
         StringBuffer stringBuffer = new StringBuffer("异常服务器 ：" + storage.getIpAddr() + "</br>");
@@ -342,7 +337,7 @@ public class JobServiceImpl extends BaseService implements JobService {
             List<WarningUser> warningUser = new ArrayList<WarningUser>();
             warningUser = warningService.findWarUser();
             for (WarningUser wu : warningUser) {
-                buildMail.sendWarning("VivaMe维我", wu.getEmail(), "dfs预警报告", stringBuffer.toString());
+                buildMail.sendWarning("FastDFS", wu.getEmail(), "dfs预警报告", stringBuffer.toString());
             }
         }
     }
@@ -352,20 +347,19 @@ public class JobServiceImpl extends BaseService implements JobService {
      */
     @Override
     @Scheduled(cron = "0 0 01 * * ?")
-    public void readDataFromLoggerToDataBase()throws  JSchException{
+    public void readDataFromLoggerToDataBase() throws JSchException {
         SimpleDateFormat df = new SimpleDateFormat("yyyyMMdd");
         Calendar c = Calendar.getInstance();
         c.add(Calendar.DAY_OF_MONTH, -1);
         Date d = c.getTime();
         String date = df.format(d);
         for (Machine machine : Tools.machines) {
-            String cmd = "cat "+machine.getLogpath()+"/fastdfs_" + date + ".log";
+            String cmd = "cat " + machine.getLogpath() + "/fastdfs_" + date + ".log";
             List<String> strList = new ArrayList<String>();
-            if(machine.isConfigType())
-                strList = Tools.exeRemoteConsole(machine.getIp(),
-                        machine.getUsername(), machine.getPassword(), cmd);
+            if (machine.isConfigType())
+                strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
-                strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
+                strList = new JsshProxy(machine.getIp(), machine.getUsername(), machine.getPort(), machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
                 String data[] = str.split(" ");
                 if (data[8].equals("200")) {

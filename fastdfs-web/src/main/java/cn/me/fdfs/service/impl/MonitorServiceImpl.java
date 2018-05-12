@@ -32,11 +32,10 @@ import java.util.List;
  */
 @Service
 public class MonitorServiceImpl extends BaseService implements MonitorService {
-
     private static final Logger logger = LoggerFactory.getLogger(MonitorServiceImpl.class);
 
     @Override
-    public List<Group> listGroupInfo() throws IOException, MyException,JSchException {
+    public List<Group> listGroupInfo() throws IOException, MyException, JSchException {
         List<Group> result = new ArrayList<Group>();
         // noinspection ConstantConditions
         ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
@@ -49,8 +48,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
         }
         StructGroupStat[] groupStats = tracker.listGroups(trackerServer);
         if (groupStats == null) {
-            logger.error("ERROR! list groups error, error no: "
-                    + tracker.getErrorCode());
+            logger.error("ERROR! list groups error, error no: " + tracker.getErrorCode());
             return result;
         }
         logger.info("group count: " + groupStats.length);
@@ -59,14 +57,12 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
         for (StructGroupStat groupStat : groupStats) {
             Group group = new Group();
             BeanUtils.copyProperties(groupStat, group);
-            StructStorageStat[] storageStats = tracker.listStorages(
-                    trackerServer, groupStat.getGroupName());
+            StructStorageStat[] storageStats = tracker.listStorages(trackerServer, groupStat.getGroupName());
             for (StructStorageStat storageStat : storageStats) {
                 Storage storage = new Storage();
                 BeanUtils.copyProperties(storageStat, storage);
                 storage.setCreated(date);
-                storage.setCurStatus(ProtoCommon
-                        .getStorageStatusCaption(storageStat.getStatus()));
+                storage.setCurStatus(ProtoCommon.getStorageStatusCaption(storageStat.getStatus()));
                 group.getStorageList().add(storage);
             }
             result.add(group);
@@ -75,26 +71,20 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
         String cmd = "ps -aux|grep fdfs";
         for (Machine machine : Tools.machines) {
             List<String> strList = new ArrayList<String>();
-            if(machine.isConfigType())
-                strList = Tools.exeRemoteConsole(machine.getIp(),
-                        machine.getUsername(), machine.getPassword(), cmd);
+            if (machine.isConfigType())
+                strList = Tools.exeRemoteConsole(machine.getIp(), machine.getUsername(), machine.getPassword(), cmd);
             else
-                strList = new JsshProxy(machine.getIp(),machine.getUsername(),machine.getPort(),machine.getSsh()).execute(cmd).getExecuteLines();
+                strList = new JsshProxy(machine.getIp(), machine.getUsername(), machine.getPort(), machine.getSsh()).execute(cmd).getExecuteLines();
             for (String str : strList) {
                 if (str.contains("storage.conf")) {
                     for (Group group : result) {
                         group.setCreated(date);
                         for (Storage storage : group.getStorageList()) {
-                            if (machine.getIp().equalsIgnoreCase(
-                                    storage.getIpAddr())) {
-                                String[] strArrray = str.replaceAll(" +", ",")
-                                        .split(",");
+                            if (machine.getIp().equalsIgnoreCase(storage.getIpAddr())) {
+                                String[] strArrray = str.replaceAll(" +", ",").split(",");
                                 storage.setCpu(strArrray[2]);
                                 storage.setMem(Float.parseFloat(strArrray[3]));
-
-
                             }
-
                         }
                     }
                 }
@@ -110,8 +100,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
         List<Group> groups = new ArrayList<Group>();
         Session session = getSession();
 
-        StringBuilder queryString = new StringBuilder(
-                "from Group as g GROUP BY groupName");
+        StringBuilder queryString = new StringBuilder("from Group as g GROUP BY groupName");
         Query query = session.createQuery(queryString.toString());
 
         groups = query.list();
@@ -122,14 +111,10 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
     @SuppressWarnings("unchecked")
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<Storage> listStorage(String groupName) throws IOException,
-            MyException {
-
+    public List<Storage> listStorage(String groupName) throws IOException, MyException {
         Session session = getSession();
 
-        StringBuilder queryString = new StringBuilder(
-                "from Storage as s where  s.groupName='" + groupName
-                        + "' group by s.ipAddr");
+        StringBuilder queryString = new StringBuilder("from Storage as s where  s.groupName='" + groupName + "' group by s.ipAddr");
         Query query = session.createQuery(queryString.toString());
 
         return query.list();
@@ -143,9 +128,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
             MyException {
         Session session = getSession();
 
-        StringBuilder queryString = new StringBuilder(
-                "from Storage as s where  s.ipAddr='" + ipaddr
-                        + "' order by s.created desc");
+        StringBuilder queryString = new StringBuilder("from Storage as s where  s.ipAddr='" + ipaddr + "' order by s.created desc");
         Query query = session.createQuery(queryString.toString());
         query.setMaxResults(10);
         return query.list();
@@ -177,14 +160,10 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
             calendar.add(Calendar.HOUR, -6);
             starttime = calendar.getTime();
         }
-        String hql = "from "
-                + entity
-                + " s where s.ipAddr=:ip and s.created between :starttime and :endtime order by s.created";
+        String hql = "from " + entity + " s where s.ipAddr=:ip and s.created between :starttime and :endtime order by s.created";
         Query query = session.createQuery(hql);
 
-        List storages = query.setParameter("ip", ip)
-                .setParameter("starttime", starttime)
-                .setParameter("endtime", endtime).list();
+        List storages = query.setParameter("ip", ip).setParameter("starttime", starttime).setParameter("endtime", endtime).list();
         Line uploadLine = new Line("上传流量");
         Line downLoadLine = new Line("下载流量");
         lines.add(uploadLine);
@@ -212,8 +191,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
             }
 
             uploadLine.getData().add(new Long[]{created.getTime(), upload});
-            downLoadLine.getData().add(
-                    new Long[]{created.getTime(), download});
+            downLoadLine.getData().add(new Long[]{created.getTime(), download});
         }
         return lines;
     }
@@ -233,24 +211,20 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public Line getListStoragesInfo(String ip, String startTime, String endTime)
-            throws IOException, MyException {
+    public Line getListStoragesInfo(String ip, String startTime, String endTime) throws IOException, MyException {
         Line sc = new Line(ip);
         sc.setName(ip);
         System.out.println(startTime + "!!!!!!!!!!!!!!!!!!!" + endTime);
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
         String start = null, end = null, d = sdf.format(new Date());
         try {
-            start = (startTime == null || startTime.equals("")) ? "0000-00-00 00:00"
-                    : startTime;
+            start = (startTime == null || startTime.equals("")) ? "0000-00-00 00:00" : startTime;
             end = (endTime == null || endTime.equals("")) ? d : endTime;
         } catch (Exception e) {
             e.printStackTrace();
         }
         Session session = getSession();
-        String str = "from StorageHour as s where s.ipAddr='" + ip
-                + "' and s.created between '" + start + "' and '" + end + "'"
-                + " order by s.created desc";
+        String str = "from StorageHour as s where s.ipAddr='" + ip + "' and s.created between '" + start + "' and '" + end + "'" + " order by s.created desc";
         System.out.println(str);
         Query query = session.createQuery(str);
         List<StorageHour> s = query.list();
@@ -259,34 +233,26 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
             if (created == null) {
                 continue;
             }
-            sc.getData().add(
-                    new Long[]{created.getTime(), s.get(i).getFreeMB()});
+            sc.getData().add(new Long[]{created.getTime(), s.get(i).getFreeMB()});
         }
         return sc;
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<Line> listStorageLines(String groupName) throws IOException,
-            MyException {
+    public List<Line> listStorageLines(String groupName) throws IOException, MyException {
         List<Line> lines = new ArrayList<Line>();
         Session session = getSession();
         List<Storage> storages = listStorage(groupName);
         for (Storage s : storages) {
-            Query query = session
-                    .createQuery("from Storage s where s.ipAddr=:ip order by s.created desc");
-            List<Storage> results = query.setParameter("ip", s.getIpAddr())
-                    .setMaxResults(10).list();
-            Line line = new Line(s.getIpAddr()+"mem使用率");
-            Line line1 = new Line(s.getIpAddr()+"cpu使用率");
+            Query query = session.createQuery("from Storage s where s.ipAddr=:ip order by s.created desc");
+            List<Storage> results = query.setParameter("ip", s.getIpAddr()).setMaxResults(10).list();
+            Line line = new Line(s.getIpAddr() + "mem使用率");
+            Line line1 = new Line(s.getIpAddr() + "cpu使用率");
             for (int i = results.size() - 1; i >= 0; i--) {
                 Storage ss = results.get(i);
-                line.getData()
-                        .add(new Object[]{ss.getCreated().getTime(),
-                                ss.getMem()});
-                line1.getData().add(new Object[]{ss.getCreated().getTime(),
-                        Double.parseDouble(ss.getCpu())});
-
+                line.getData().add(new Object[]{ss.getCreated().getTime(), ss.getMem()});
+                line1.getData().add(new Object[]{ss.getCreated().getTime(), Double.parseDouble(ss.getCpu())});
             }
             lines.add(line);
             lines.add(line1);
@@ -296,13 +262,11 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public StorageHour getStorageByIp(String ip) throws IOException,
-            MyException {
+    public StorageHour getStorageByIp(String ip) throws IOException, MyException {
         System.out.println(ip);
         StorageHour storages = new StorageHour();
         Session session = getSession();
-        String str = "from StorageHour as s where s.ipAddr='" + ip
-                + "' order by s.created desc";
+        String str = "from StorageHour as s where s.ipAddr='" + ip + "' order by s.created desc";
         Query query = session.createQuery(str);
         query.setFirstResult(1);
         query.setMaxResults(1);
@@ -312,26 +276,20 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED, readOnly = true)
-    public List<Line> getListFileCountStorage(String ip, String startTime,
-                                              String endTime) throws IOException, MyException {
+    public List<Line> getListFileCountStorage(String ip, String startTime, String endTime) throws IOException, MyException {
         List<Line> lines = new ArrayList<Line>();
         Session session = getSession();
         Date start = null, end = null, d1 = new Date();
         try {
             SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm");
             String format = sdf.format(d1);
-            start = (startTime == "" || startTime == null) ? sdf
-                    .parse("0000-00-00 00:00") : sdf.parse(startTime);
-            end = (endTime == "" || endTime == null) ? sdf.parse(format) : sdf
-                    .parse(endTime);
+            start = (startTime == "" || startTime == null) ? sdf.parse("0000-00-00 00:00") : sdf.parse(startTime);
+            end = (endTime == "" || endTime == null) ? sdf.parse(format) : sdf.parse(endTime);
         } catch (ParseException e) {
             e.printStackTrace();
         }
-        Query query = session
-                .createQuery("from StorageHour as s where s.ipAddr=:ip and s.created between :starttime and :endtime order by s.created");
-        List<StorageHour> storages = query.setString("ip", ip)
-                .setParameter("starttime", start).setParameter("endtime", end)
-                .list();
+        Query query = session.createQuery("from StorageHour as s where s.ipAddr=:ip and s.created between :starttime and :endtime order by s.created");
+        List<StorageHour> storages = query.setString("ip", ip).setParameter("starttime", start).setParameter("endtime", end).list();
         Line uploadLine = new Line("上传文件数量");
         Line downLoadLine = new Line("下载文件数量");
         lines.add(uploadLine);
@@ -350,10 +308,8 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
             }
             long totalUpload = storage.getSuccessUploadCount();
             long totalDownload = storage.getSuccessDownloadCount();
-            uploadLine.getData().add(
-                    new Long[]{created.getTime(), (totalUpload - u)});
-            downLoadLine.getData().add(
-                    new Long[]{created.getTime(), (totalDownload - d)});
+            uploadLine.getData().add(new Long[]{created.getTime(), (totalUpload - u)});
+            downLoadLine.getData().add(new Long[]{created.getTime(), (totalDownload - d)});
         }
 
         return lines;
@@ -369,8 +325,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<GroupDay> getGroupsByName(String groupName) throws IOException,
-            MyException {
+    public List<GroupDay> getGroupsByName(String groupName) throws IOException, MyException {
         // To change body of implemented methods use File | Settings | File
         // Templates.
         List<GroupDay> result = new ArrayList<GroupDay>();

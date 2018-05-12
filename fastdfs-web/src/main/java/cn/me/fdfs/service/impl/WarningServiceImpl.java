@@ -28,8 +28,8 @@ import java.util.List;
  */
 @Service
 public class WarningServiceImpl extends BaseService implements WarningService {
-    private static final Logger logger = LoggerFactory
-            .getLogger(WarningServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(WarningServiceImpl.class);
+
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public void updateWarning(WarningData wd) throws IOException, MyException {
@@ -52,18 +52,18 @@ public class WarningServiceImpl extends BaseService implements WarningService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<WarningData> findWarning(WarningData wd,PageInfo pageInfo) throws IOException, MyException {
+    public List<WarningData> findWarning(WarningData wd, PageInfo pageInfo) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
         List<WarningData> warningDatas = new ArrayList<WarningData>();
         Session session = getSession();
         StringBuilder queryString = new StringBuilder("from WarningData as wd ");
-        if(!StringUtils.isNullOrEmpty(wd.getWdIpAddr())){
-            queryString.append("where wd.wdIpAddr like '%"+wd.getWdIpAddr()+"%'");
+        if (!StringUtils.isNullOrEmpty(wd.getWdIpAddr())) {
+            queryString.append("where wd.wdIpAddr like '%" + wd.getWdIpAddr() + "%'");
         }
         Query query = session.createQuery(queryString.toString());
         pageInfo.setTotalCount(query.list().size());
         query.setMaxResults(pageInfo.getNumPerPage());
-        query.setFirstResult((pageInfo.getPageNum()-1)*pageInfo.getNumPerPage());
+        query.setFirstResult((pageInfo.getPageNum() - 1) * pageInfo.getNumPerPage());
         warningDatas = query.list();
         return warningDatas;
     }
@@ -72,9 +72,9 @@ public class WarningServiceImpl extends BaseService implements WarningService {
     @Transactional(propagation = Propagation.REQUIRED)
     public WarningData findById(String id) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
-        WarningData wd=new WarningData();
+        WarningData wd = new WarningData();
         Session session = getSession();
-        wd= (WarningData) session.get(WarningData.class,id);
+        wd = (WarningData) session.get(WarningData.class, id);
         return wd;
     }
 
@@ -82,20 +82,19 @@ public class WarningServiceImpl extends BaseService implements WarningService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void delWarning(String id) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
-        WarningData wd=new WarningData();
+        WarningData wd = new WarningData();
         wd.setId(id);
         Session session = getSession();
-       session.delete(wd);
+        session.delete(wd);
     }
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<WarningData> findByIp(String ip) throws IOException, MyException {
-         //To change body of implemented methods use File | Settings | File Templates.
+        //To change body of implemented methods use File | Settings | File Templates.
         List<WarningData> warningDatas = new ArrayList<WarningData>();
         Session session = getSession();
-        Query query = session
-                .createQuery("from WarningData wd where wd.wdIpAddr=:ip");
+        Query query = session.createQuery("from WarningData wd where wd.wdIpAddr=:ip");
         warningDatas = query.setString("ip", ip).list();
         return warningDatas;
     }
@@ -114,18 +113,18 @@ public class WarningServiceImpl extends BaseService implements WarningService {
 
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
-    public List<WarningUser> findWarUser(WarningUser wu,PageInfo pageInfo) throws IOException, MyException {
+    public List<WarningUser> findWarUser(WarningUser wu, PageInfo pageInfo) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
         List<WarningUser> warningUsers = new ArrayList<WarningUser>();
         Session session = getSession();
         StringBuilder queryString = new StringBuilder("from WarningUser as w ");
-        if(!StringUtils.isNullOrEmpty(wu.getName())){
-            queryString.append("where w.name like '%"+wu.getName()+"%'");
+        if (!StringUtils.isNullOrEmpty(wu.getName())) {
+            queryString.append("where w.name like '%" + wu.getName() + "%'");
         }
         Query query = session.createQuery(queryString.toString());
         pageInfo.setTotalCount(query.list().size());
         query.setMaxResults(pageInfo.getNumPerPage());
-        query.setFirstResult((pageInfo.getPageNum()-1)*pageInfo.getNumPerPage());
+        query.setFirstResult((pageInfo.getPageNum() - 1) * pageInfo.getNumPerPage());
         warningUsers = query.list();
         return warningUsers;
     }
@@ -134,9 +133,9 @@ public class WarningServiceImpl extends BaseService implements WarningService {
     @Transactional(propagation = Propagation.REQUIRED)
     public WarningUser findUserId(String id) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
-        WarningUser wu=new WarningUser();
+        WarningUser wu = new WarningUser();
         Session session = getSession();
-        wu= (WarningUser) session.get(WarningUser.class,id);
+        wu = (WarningUser) session.get(WarningUser.class, id);
         return wu;
     }
 
@@ -144,7 +143,7 @@ public class WarningServiceImpl extends BaseService implements WarningService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void delWarUser(String id) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
-        WarningUser wu=new WarningUser();
+        WarningUser wu = new WarningUser();
         wu.setId(id);
         Session session = getSession();
         session.delete(wu);

@@ -570,6 +570,7 @@ public class StorageDay {
     public void setIfTrunkServer(boolean ifTrunkServer) {
         this.ifTrunkServer = ifTrunkServer;
     }
+
     @ManyToOne(fetch = FetchType.LAZY)
     public GroupDay getGroup() {
         return group;
@@ -578,6 +579,7 @@ public class StorageDay {
     public void setGroup(GroupDay group) {
         this.group = group;
     }
+
     public Date getCreated() {
         return created;
     }

@@ -25,7 +25,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public class Tools {
-
     private static final Logger logger = LoggerFactory.getLogger(Tools.class);
     public static List<Machine> machines;
 
@@ -93,7 +92,6 @@ public class Tools {
         }
         //linux下
         if ("/".equals(File.separator)) {
-
             classPath = classPath.replace("\\", "/");
         }
         return classPath;
@@ -101,14 +99,13 @@ public class Tools {
 
     public static String getResourcePath(String fileName) {
         String classPath = "";
-        try{
+        try {
             classPath = ResourcePatternUtils.getResourcePatternResolver(new DefaultResourceLoader()).getResource(fileName).getURL().getFile();
-        }catch(IOException ex){
-            logger.error("获取fdfs_client.conf文件路径出错",ex);
+        } catch (IOException ex) {
+            logger.error("获取fdfs_client.conf文件路径出错", ex);
         }
         return classPath;
     }
-
 
     static {
         SAXReader saxReader = new SAXReader();
@@ -124,20 +121,19 @@ public class Tools {
                 String ip = element.element("ip").getText();
                 String username = element.element("username").getText();
                 if (element.element("password") != null) {
-
                     String password = element.element("password").getText();
                     machine.setPassword(password);
                     machine.setConfigType(true);      //用户名密码登录
                 }
 
                 if (element.element("ssh") != null) {
-
                     String ssh = element.element("ssh").getText();
                     machine.setSsh(ssh);
                     machine.setConfigType(false);    //密钥登录
                     int port = Integer.parseInt(element.element("port").getText());
                     machine.setPort(port);
                 }
+
                 String logpath = element.element("logpath").getText();
                 machine.setIp(ip);
                 machine.setUsername(username);

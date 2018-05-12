@@ -11,72 +11,73 @@ import java.util.Date;
 @Entity
 @Table(name = "tbfile")
 public class Fdfs_file {
-	private String id;
-	private String file_id;
-	private String file_name;
-	private String MD5;
-	private String type;// 文件类型
-	private Date created;
-	private String article_id;
+    private String id;
+    private String file_id;
+    private String file_name;
+    private String MD5;
+    private String type;// 文件类型
+    private Date created;
+    private String article_id;
     private long fileSize;//文件大小
-	@Id
-	@GeneratedValue(generator = "system_uuid")
-	@GenericGenerator(name = "system_uuid", strategy = "uuid")
-	public String getId() {
-		return id;
-	}
 
-	public void setId(String id) {
-		this.id = id;
-	}
+    @Id
+    @GeneratedValue(generator = "system_uuid")
+    @GenericGenerator(name = "system_uuid", strategy = "uuid")
+    public String getId() {
+        return id;
+    }
 
-	public String getFile_id() {
-		return file_id;
-	}
+    public void setId(String id) {
+        this.id = id;
+    }
 
-	public void setFile_id(String file_id) {
-		this.file_id = file_id;
-	}
+    public String getFile_id() {
+        return file_id;
+    }
 
-	public String getMD5() {
-		return MD5;
-	}
+    public void setFile_id(String file_id) {
+        this.file_id = file_id;
+    }
 
-	public void setMD5(String mD5) {
-		MD5 = mD5;
-	}
+    public String getMD5() {
+        return MD5;
+    }
 
-	public String getType() {
-		return type;
-	}
+    public void setMD5(String mD5) {
+        MD5 = mD5;
+    }
 
-	public void setType(String type) {
-		this.type = type;
-	}
+    public String getType() {
+        return type;
+    }
 
-	public Date getCreated() {
-		return created;
-	}
+    public void setType(String type) {
+        this.type = type;
+    }
 
-	public void setCreated(Date created) {
-		this.created = created;
-	}
+    public Date getCreated() {
+        return created;
+    }
 
-	public String getFile_name() {
-		return file_name;
-	}
+    public void setCreated(Date created) {
+        this.created = created;
+    }
 
-	public void setFile_name(String file_name) {
-		this.file_name = file_name;
-	}
+    public String getFile_name() {
+        return file_name;
+    }
 
-	public String getArticle_id() {
-		return article_id;
-	}
+    public void setFile_name(String file_name) {
+        this.file_name = file_name;
+    }
 
-	public void setArticle_id(String article_id) {
-		this.article_id = article_id;
-	}
+    public String getArticle_id() {
+        return article_id;
+    }
+
+    public void setArticle_id(String article_id) {
+        this.article_id = article_id;
+    }
 
     public long getFileSize() {
         return fileSize;

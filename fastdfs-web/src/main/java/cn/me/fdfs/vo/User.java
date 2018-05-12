@@ -26,6 +26,7 @@ public class User implements Serializable {
     public User() {
         super();
     }
+
     @Id
     @GeneratedValue(generator = "system_uuid")
     @GenericGenerator(name = "system_uuid", strategy = "uuid")

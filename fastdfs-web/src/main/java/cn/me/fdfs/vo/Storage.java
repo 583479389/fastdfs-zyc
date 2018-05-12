@@ -80,105 +80,104 @@ public class Storage {
     private String groupName;
     private Date created;
 
-    
     public Storage() {
-		super();
-	}
-    
-	public Storage(String id, String curStatus, String ipAddr,
-			String srcIpAddr, String domainName, String version, long totalMB,
-			long freeMB, int uploadPriority, Date joinTime, Date upTime,
-			int storePathCount, int subdirCountPerPath, int storagePort,
-			int storageHttpPort, int currentWritePath, long totalUploadCount,
-			long successUploadCount, long totalAppendCount,
-			long successAppendCount, long totalModifyCount,
-			long successModifyCount, long totalTruncateCount,
-			long successTruncateCount, long totalSetMetaCount,
-			long successSetMetaCount, long totalDeleteCount,
-			long successDeleteCount, long totalDownloadCount,
-			long successDownloadCount, long totalGetMetaCount,
-			long successGetMetaCount, long totalCreateLinkCount,
-			long successCreateLinkCount, long totalDeleteLinkCount,
-			long successDeleteLinkCount, long totalUploadBytes,
-			long successUploadBytes, long totalAppendBytes,
-			long successAppendBytes, long totalModifyBytes,
-			long successModifyBytes, long totalDownloadloadBytes,
-			long successDownloadloadBytes, long totalSyncInBytes,
-			long successSyncInBytes, long totalSyncOutBytes,
-			long successSyncOutBytes, long totalFileOpenCount,
-			long successFileOpenCount, long totalFileReadCount,
-			long successFileReadCount, long totalFileWriteCount,
-			long successFileWriteCount, Date lastSourceUpdate,
-			Date lastSyncUpdate, Date lastSyncedTimestamp,
-			Date lastHeartBeatTime, boolean ifTrunkServer, String cpu,
-			float mem, Group group, Date created) {
-		super();
-		this.id = id;
-		this.curStatus = curStatus;
-		this.ipAddr = ipAddr;
-		this.srcIpAddr = srcIpAddr;
-		this.domainName = domainName;
-		this.version = version;
-		this.totalMB = totalMB;
-		this.freeMB = freeMB;
-		this.uploadPriority = uploadPriority;
-		this.joinTime = joinTime;
-		this.upTime = upTime;
-		this.storePathCount = storePathCount;
-		this.subdirCountPerPath = subdirCountPerPath;
-		this.storagePort = storagePort;
-		this.storageHttpPort = storageHttpPort;
-		this.currentWritePath = currentWritePath;
-		this.totalUploadCount = totalUploadCount;
-		this.successUploadCount = successUploadCount;
-		this.totalAppendCount = totalAppendCount;
-		this.successAppendCount = successAppendCount;
-		this.totalModifyCount = totalModifyCount;
-		this.successModifyCount = successModifyCount;
-		this.totalTruncateCount = totalTruncateCount;
-		this.successTruncateCount = successTruncateCount;
-		this.totalSetMetaCount = totalSetMetaCount;
-		this.successSetMetaCount = successSetMetaCount;
-		this.totalDeleteCount = totalDeleteCount;
-		this.successDeleteCount = successDeleteCount;
-		this.totalDownloadCount = totalDownloadCount;
-		this.successDownloadCount = successDownloadCount;
-		this.totalGetMetaCount = totalGetMetaCount;
-		this.successGetMetaCount = successGetMetaCount;
-		this.totalCreateLinkCount = totalCreateLinkCount;
-		this.successCreateLinkCount = successCreateLinkCount;
-		this.totalDeleteLinkCount = totalDeleteLinkCount;
-		this.successDeleteLinkCount = successDeleteLinkCount;
-		this.totalUploadBytes = totalUploadBytes;
-		this.successUploadBytes = successUploadBytes;
-		this.totalAppendBytes = totalAppendBytes;
-		this.successAppendBytes = successAppendBytes;
-		this.totalModifyBytes = totalModifyBytes;
-		this.successModifyBytes = successModifyBytes;
-		this.totalDownloadloadBytes = totalDownloadloadBytes;
-		this.successDownloadloadBytes = successDownloadloadBytes;
-		this.totalSyncInBytes = totalSyncInBytes;
-		this.successSyncInBytes = successSyncInBytes;
-		this.totalSyncOutBytes = totalSyncOutBytes;
-		this.successSyncOutBytes = successSyncOutBytes;
-		this.totalFileOpenCount = totalFileOpenCount;
-		this.successFileOpenCount = successFileOpenCount;
-		this.totalFileReadCount = totalFileReadCount;
-		this.successFileReadCount = successFileReadCount;
-		this.totalFileWriteCount = totalFileWriteCount;
-		this.successFileWriteCount = successFileWriteCount;
-		this.lastSourceUpdate = lastSourceUpdate;
-		this.lastSyncUpdate = lastSyncUpdate;
-		this.lastSyncedTimestamp = lastSyncedTimestamp;
-		this.lastHeartBeatTime = lastHeartBeatTime;
-		this.ifTrunkServer = ifTrunkServer;
-		this.cpu = cpu;
-		this.mem = mem;
-		this.group = group;
-		this.created = created;
-	}
+        super();
+    }
 
-	@Id
+    public Storage(String id, String curStatus, String ipAddr,
+                   String srcIpAddr, String domainName, String version, long totalMB,
+                   long freeMB, int uploadPriority, Date joinTime, Date upTime,
+                   int storePathCount, int subdirCountPerPath, int storagePort,
+                   int storageHttpPort, int currentWritePath, long totalUploadCount,
+                   long successUploadCount, long totalAppendCount,
+                   long successAppendCount, long totalModifyCount,
+                   long successModifyCount, long totalTruncateCount,
+                   long successTruncateCount, long totalSetMetaCount,
+                   long successSetMetaCount, long totalDeleteCount,
+                   long successDeleteCount, long totalDownloadCount,
+                   long successDownloadCount, long totalGetMetaCount,
+                   long successGetMetaCount, long totalCreateLinkCount,
+                   long successCreateLinkCount, long totalDeleteLinkCount,
+                   long successDeleteLinkCount, long totalUploadBytes,
+                   long successUploadBytes, long totalAppendBytes,
+                   long successAppendBytes, long totalModifyBytes,
+                   long successModifyBytes, long totalDownloadloadBytes,
+                   long successDownloadloadBytes, long totalSyncInBytes,
+                   long successSyncInBytes, long totalSyncOutBytes,
+                   long successSyncOutBytes, long totalFileOpenCount,
+                   long successFileOpenCount, long totalFileReadCount,
+                   long successFileReadCount, long totalFileWriteCount,
+                   long successFileWriteCount, Date lastSourceUpdate,
+                   Date lastSyncUpdate, Date lastSyncedTimestamp,
+                   Date lastHeartBeatTime, boolean ifTrunkServer, String cpu,
+                   float mem, Group group, Date created) {
+        super();
+        this.id = id;
+        this.curStatus = curStatus;
+        this.ipAddr = ipAddr;
+        this.srcIpAddr = srcIpAddr;
+        this.domainName = domainName;
+        this.version = version;
+        this.totalMB = totalMB;
+        this.freeMB = freeMB;
+        this.uploadPriority = uploadPriority;
+        this.joinTime = joinTime;
+        this.upTime = upTime;
+        this.storePathCount = storePathCount;
+        this.subdirCountPerPath = subdirCountPerPath;
+        this.storagePort = storagePort;
+        this.storageHttpPort = storageHttpPort;
+        this.currentWritePath = currentWritePath;
+        this.totalUploadCount = totalUploadCount;
+        this.successUploadCount = successUploadCount;
+        this.totalAppendCount = totalAppendCount;
+        this.successAppendCount = successAppendCount;
+        this.totalModifyCount = totalModifyCount;
+        this.successModifyCount = successModifyCount;
+        this.totalTruncateCount = totalTruncateCount;
+        this.successTruncateCount = successTruncateCount;
+        this.totalSetMetaCount = totalSetMetaCount;
+        this.successSetMetaCount = successSetMetaCount;
+        this.totalDeleteCount = totalDeleteCount;
+        this.successDeleteCount = successDeleteCount;
+        this.totalDownloadCount = totalDownloadCount;
+        this.successDownloadCount = successDownloadCount;
+        this.totalGetMetaCount = totalGetMetaCount;
+        this.successGetMetaCount = successGetMetaCount;
+        this.totalCreateLinkCount = totalCreateLinkCount;
+        this.successCreateLinkCount = successCreateLinkCount;
+        this.totalDeleteLinkCount = totalDeleteLinkCount;
+        this.successDeleteLinkCount = successDeleteLinkCount;
+        this.totalUploadBytes = totalUploadBytes;
+        this.successUploadBytes = successUploadBytes;
+        this.totalAppendBytes = totalAppendBytes;
+        this.successAppendBytes = successAppendBytes;
+        this.totalModifyBytes = totalModifyBytes;
+        this.successModifyBytes = successModifyBytes;
+        this.totalDownloadloadBytes = totalDownloadloadBytes;
+        this.successDownloadloadBytes = successDownloadloadBytes;
+        this.totalSyncInBytes = totalSyncInBytes;
+        this.successSyncInBytes = successSyncInBytes;
+        this.totalSyncOutBytes = totalSyncOutBytes;
+        this.successSyncOutBytes = successSyncOutBytes;
+        this.totalFileOpenCount = totalFileOpenCount;
+        this.successFileOpenCount = successFileOpenCount;
+        this.totalFileReadCount = totalFileReadCount;
+        this.successFileReadCount = successFileReadCount;
+        this.totalFileWriteCount = totalFileWriteCount;
+        this.successFileWriteCount = successFileWriteCount;
+        this.lastSourceUpdate = lastSourceUpdate;
+        this.lastSyncUpdate = lastSyncUpdate;
+        this.lastSyncedTimestamp = lastSyncedTimestamp;
+        this.lastHeartBeatTime = lastHeartBeatTime;
+        this.ifTrunkServer = ifTrunkServer;
+        this.cpu = cpu;
+        this.mem = mem;
+        this.group = group;
+        this.created = created;
+    }
+
+    @Id
     @GeneratedValue(generator = "system_uuid")
     @GenericGenerator(name = "system_uuid", strategy = "uuid")
     public String getId() {
@@ -673,9 +672,11 @@ public class Storage {
     public Group getGroup() {
         return group;
     }
+
     public void setGroup(Group group) {
         this.group = group;
     }
+
     public Date getCreated() {
         return created;
     }

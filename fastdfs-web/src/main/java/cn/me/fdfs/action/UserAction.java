@@ -29,58 +29,60 @@ public class UserAction {
 
     @RequestMapping("/userlist")
     public ModelAndView userlist(String username) throws IOException, MyException {
-       ModelAndView mv = new ModelAndView("user/userlist.jsp");
-        List<User> userlist=userService.userlist(username);
-        mv.addObject("userlist",userlist);
+        ModelAndView mv = new ModelAndView("user/userlist.jsp");
+        List<User> userlist = userService.userlist(username);
+        mv.addObject("userlist", userlist);
         return mv;
     }
+
     @RequestMapping("/useradd")
     public ModelAndView useradd(String id) throws IOException, MyException {
         ModelAndView mv = new ModelAndView("user/useradd.jsp");
-        if(!StringUtils.isNullOrEmpty(id))
-        {
-            User user=userService.findById(id);
-            mv.addObject("id",user.getId());
-            mv.addObject("name",user.getName());
-            mv.addObject("psword",user.getPsword());
-            mv.addObject("power",user.getPower());
+        if (!StringUtils.isNullOrEmpty(id)) {
+            User user = userService.findById(id);
+            mv.addObject("id", user.getId());
+            mv.addObject("name", user.getName());
+            mv.addObject("psword", user.getPsword());
+            mv.addObject("power", user.getPower());
         }
 
         return mv;
     }
+
     @ResponseBody
     @RequestMapping("/saveuser")
-    public Message saveWarning(String name,String psword,String power) throws IOException, MyException {
+    public Message saveWarning(String name, String psword, String power) throws IOException, MyException {
         Message message = null;
-        User userbyname=userService.findByName(name);
-        if(userbyname==null){
-            String result="添加成功";
-            User user=new User();
+        User userbyname = userService.findByName(name);
+        if (userbyname == null) {
+            String result = "添加成功";
+            User user = new User();
             user.setName(name);
             user.setPsword(psword);
             user.setPower(power);
             userService.updateOrSaveUser(user);
-            message=new Message();
+            message = new Message();
             message.setStatusCode("200");
             message.setMessage(result);
 
-        }else{
-            String result="用户名重复";
-            message=new Message();
+        } else {
+            String result = "用户名重复";
+            message = new Message();
             message.setStatusCode("300");
             message.setMessage(result);
         }
         return message;
     }
+
     @ResponseBody
     @RequestMapping("/deluser")
     public Message deluser(String ids) throws IOException, MyException {
         Message message = null;
-        String []id=ids.split(",");
+        String[] id = ids.split(",");
         for (String i : id) {
             userService.delUser(i);
         }
-        message=new Message();
+        message = new Message();
         message.setStatusCode("200");
         message.setMessage("删除成功");
         return message;

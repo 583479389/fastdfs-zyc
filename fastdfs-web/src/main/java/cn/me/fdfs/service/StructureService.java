@@ -12,7 +12,6 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 public interface StructureService {
-
     List<Line> listStorageTopLine(String ip);
 
     List<Line> listStorageAboutFile(String ip);

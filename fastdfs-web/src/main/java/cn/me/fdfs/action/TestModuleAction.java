@@ -38,23 +38,22 @@ public class TestModuleAction {
     private TestModuleService testModuleService;
     @Autowired
     private MonitorService monitorService;
-    private static final Logger logger = LoggerFactory
-            .getLogger(TestModuleAction.class);
+    private static final Logger logger = LoggerFactory.getLogger(TestModuleAction.class);
 
     @RequestMapping("/testDownLoad")
-    public ModelAndView testDownLoad(String pageNum, String pageSize,String keyForSearch) {
+    public ModelAndView testDownLoad(String pageNum, String pageSize, String keyForSearch) {
         ModelAndView mv = new ModelAndView("testModule/downLoadTest.jsp");
-        List<Fdfs_file> list = testModuleService.getAllFileListByPage(pageNum, pageSize,keyForSearch);
+        List<Fdfs_file> list = testModuleService.getAllFileListByPage(pageNum, pageSize, keyForSearch);
         int countDownLoadFile = testModuleService.getCountDownLoadFile(keyForSearch);
         mv.addObject("testFileCount", countDownLoadFile);
-        if(!StringUtils.isNullOrEmpty(keyForSearch)){
+        if (!StringUtils.isNullOrEmpty(keyForSearch)) {
             mv.addObject("pageNum", "1");
-        }else{
+        } else {
             mv.addObject("pageNum", pageNum);
         }
         mv.addObject("pageSize", pageSize);
         mv.addObject("testFileList", list);
-        mv.addObject("keySearch",keyForSearch);
+        mv.addObject("keySearch", keyForSearch);
         return mv;
     }
 
@@ -62,19 +61,16 @@ public class TestModuleAction {
     @RequestMapping("/toDownLoadToLocal")
     public Message toDownLoadToLocal(HttpServletResponse response, String fileId, String srcIpAddr, String fileName) {
         Message message = null;
-        String conf_filename = Thread.currentThread().getContextClassLoader()
-                .getResource("fdfs_client.conf").getPath();
+        String conf_filename = Thread.currentThread().getContextClassLoader().getResource("fdfs_client.conf").getPath();
         try {
             ClientGlobal.init(conf_filename);
 
-            System.out.println("network_timeout="
-                    + ClientGlobal.g_network_timeout + "ms");
+            System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
             System.out.println("charset=" + ClientGlobal.g_charset);
             TrackerClient tracker = new TrackerClient();
             TrackerServer trackerServer = tracker.getConnection();
             StorageServer storageServer = null;
-            StorageClient1 client = new StorageClient1(trackerServer,
-                    storageServer);
+            StorageClient1 client = new StorageClient1(trackerServer, storageServer);
             byte[] bytes = client.download_file1(fileId);
             response.setHeader("content-disposition", "attachment;filename=" + fileName);
             if (bytes != null) {
@@ -83,7 +79,6 @@ public class TestModuleAction {
                 os.close();
                 Fdfs_file f = testModuleService.getFileByFileId(fileId);
                 if (f != null) {
-
                     testModuleService.saveFastFile(f);
                 }
             }
@@ -96,7 +91,7 @@ public class TestModuleAction {
     }
 
     @RequestMapping("/accessFile")
-    public ModelAndView accessFile() throws IOException, MyException,JSchException {
+    public ModelAndView accessFile() throws IOException, MyException, JSchException {
         ModelAndView mv = new ModelAndView("testModule/accessFileCharts.jsp");
         List<Group> groups = monitorService.listGroupInfo();
         mv.addObject("groups", groups);
@@ -122,8 +117,7 @@ public class TestModuleAction {
     }
 
     @RequestMapping("/downloadByApi")
-    public void downloadByApi(String fieldId,String fileName, HttpServletResponse response) throws IOException, MyException {
-
+    public void downloadByApi(String fieldId, String fileName, HttpServletResponse response) throws IOException, MyException {
         ClientGlobal.init(Tools.getResourcePath("fdfs_client.conf"));
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
@@ -136,10 +130,10 @@ public class TestModuleAction {
         StorageClient1 client = new StorageClient1(trackerServer, null);
         byte[] bytes = client.download_file1(fieldId);
 
-        logger.info("length:"+bytes.length);
+        logger.info("length:" + bytes.length);
 
         response.setHeader("Content-disposition",
-                "attachment; filename="+fileName);
+                "attachment; filename=" + fileName);
         OutputStream os = response.getOutputStream();
         os.write(bytes);
         os.close();

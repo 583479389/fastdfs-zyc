@@ -34,5 +34,4 @@ public class Line {
     public void setData(List<Object[]> data) {
         this.data = data;
     }
-
 }

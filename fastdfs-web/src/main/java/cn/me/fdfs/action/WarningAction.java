@@ -39,8 +39,8 @@ public class WarningAction {
         List<WarningData> warningDataLists = warningService.findWarning(wd, pageInfo);
         for (WarningData warningDataList : warningDataLists) {
             List<Storage> storage = monitorService.listStorageTop(warningDataList.getWdIpAddr());
-            if(!storage.isEmpty())
-            warningDataList.setWdGroupName(storage.get(0).getGroupName());
+            if (!storage.isEmpty())
+                warningDataList.setWdGroupName(storage.get(0).getGroupName());
         }
         mv.addObject("warningValues", warningDataLists);
         mv.addObject("wdIpAddr", wdIpAddr);
@@ -65,7 +65,7 @@ public class WarningAction {
 
     @ResponseBody
     @RequestMapping("/saveWarning")
-    public Message saveWarning(String warningdataid, String ips, String wdFreeMB, String wdCpu, String wdMem) throws IOException, MyException,JSchException {
+    public Message saveWarning(String warningdataid, String ips, String wdFreeMB, String wdCpu, String wdMem) throws IOException, MyException, JSchException {
         Message message = null;
         String result = "操作成功";
         message = new Message();
@@ -83,7 +83,7 @@ public class WarningAction {
                            message.setMessage("内存预警值小于当前内存使用率");
                            return message;
                        }else */
-                        if (storage.getFreeMB() < Long.decode(wdFreeMB)*1024) {
+                        if (storage.getFreeMB() < Long.decode(wdFreeMB) * 1024) {
                             message.setStatusCode("300");
                             message.setMessage("容量预警值大于当前可用容量");
                             return message;
@@ -191,7 +191,7 @@ public class WarningAction {
         String result = "操作成功";
         WarningUser wu = new WarningUser();
         if (wuphone.length() > 11) {
-             result="操作失败";
+            result = "操作失败";
             message = new Message();
             message.setStatusCode("304");
             message.setMessage("电话号较长");
@@ -212,5 +212,4 @@ public class WarningAction {
         }
         return message;
     }
-
 }

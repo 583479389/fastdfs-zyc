@@ -28,8 +28,8 @@ public class PageInfo {
     }
 
     public int getNumPerPage() {
-        if(numPerPage==0){
-            numPerPage=20;
+        if (numPerPage == 0) {
+            numPerPage = 20;
         }
         return numPerPage;
     }
@@ -71,8 +71,8 @@ public class PageInfo {
     }
 
     public int getPageNum() {
-        if(pageNum==0){
-            pageNum=1;
+        if (pageNum == 0) {
+            pageNum = 1;
         }
         return pageNum;
     }

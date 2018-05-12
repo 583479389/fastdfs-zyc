@@ -16,9 +16,10 @@ public class Forecast {
     private long warning; //报警数据
     private Date timeForForecast; //预测到达报警数据的时间
     private long average; //过去每小时消耗的容量
-     private Date now; //当前时间
+    private Date now; //当前时间
     private long useHour;//预测还可以用多久
     private long freeMB; //现在还有多少容量
+
     public String getIpAddr() {
         return ipAddr;
     }

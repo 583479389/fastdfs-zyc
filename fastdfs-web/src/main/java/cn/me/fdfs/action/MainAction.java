@@ -28,39 +28,42 @@ public class MainAction {
     private UserService userService;
 
     @RequestMapping("/index")
-    public ModelAndView index(HttpServletRequest request, HttpServletResponse response){
+    public ModelAndView index(HttpServletRequest request, HttpServletResponse response) {
 
         ModelAndView mv = new ModelAndView("main/index.jsp");
         return mv;
     }
+
     @RequestMapping("/login")
-    public String login(HttpServletRequest request, HttpServletResponse response){
+    public String login(HttpServletRequest request, HttpServletResponse response) {
         return "main/login.jsp";
     }
+
     @ResponseBody
     @RequestMapping("/loginDo")
-    public Message loginDo(String username,String password,HttpServletRequest request, HttpServletResponse response) throws IOException, MyException {
-      boolean  res= userService.login(username,password);
-        if(res){
-           HttpSession session= request.getSession();
-            session.setAttribute("username",username);
-            session.setAttribute("userpower",userService.findByName(username).getPower());
+    public Message loginDo(String username, String password, HttpServletRequest request, HttpServletResponse response) throws IOException, MyException {
+        boolean res = userService.login(username, password);
+        if (res) {
+            HttpSession session = request.getSession();
+            session.setAttribute("username", username);
+            session.setAttribute("userpower", userService.findByName(username).getPower());
             //response.sendRedirect("index.shtml");
-            Message message=new Message("200","登录成功","","","","");
+            Message message = new Message("200", "登录成功", "", "", "", "");
             return message;
-        }else{
-           // response.sendRedirect("loginNot.shtml");
-            Message message=new Message("300","用户名或密码错误","","","","");
+        } else {
+            // response.sendRedirect("loginNot.shtml");
+            Message message = new Message("300", "用户名或密码错误", "", "", "", "");
             return message;
         }
     }
-   /* @RequestMapping("/loginNot")
-    public String loginNot(){
-        return "main/loginnot.jsp";
-    }*/
+
+    /* @RequestMapping("/loginNot")
+     public String loginNot(){
+         return "main/loginnot.jsp";
+     }*/
     @RequestMapping("/loginout")
     public void loginout(HttpServletRequest request, HttpServletResponse response) throws IOException {
-        HttpSession session= request.getSession();
+        HttpSession session = request.getSession();
         session.invalidate();
         response.sendRedirect("login.shtml");
     }

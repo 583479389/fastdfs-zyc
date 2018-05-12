@@ -23,7 +23,7 @@ import java.util.List;
  * To change this template use File | Settings | File Templates.
  */
 @Service
-public class UserServiceImpl  extends BaseService implements UserService {
+public class UserServiceImpl extends BaseService implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public List<User> userlist(String username) throws IOException, MyException {
@@ -31,8 +31,8 @@ public class UserServiceImpl  extends BaseService implements UserService {
         List<User> users = new ArrayList<User>();
         Session session = getSession();
         StringBuilder queryString = new StringBuilder("from User as u ");
-        if(username!=null&&username!=""){
-            queryString.append("where u.name like '%"+username+"%'");
+        if (username != null && username != "") {
+            queryString.append("where u.name like '%" + username + "%'");
         }
         Query query = session.createQuery(queryString.toString());
         users = query.list();
@@ -50,10 +50,10 @@ public class UserServiceImpl  extends BaseService implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public User findById(String id) throws IOException, MyException {
-      //To change body of implemented methods use File | Settings | File Templates.
-        User u=new User();
+        //To change body of implemented methods use File | Settings | File Templates.
+        User u = new User();
         Session session = getSession();
-        u= (User) session.get(WarningUser.class,id);
+        u = (User) session.get(WarningUser.class, id);
         return u;
     }
 
@@ -61,7 +61,7 @@ public class UserServiceImpl  extends BaseService implements UserService {
     @Transactional(propagation = Propagation.REQUIRED)
     public void delUser(String id) throws IOException, MyException {
         //To change body of implemented methods use File | Settings | File Templates.
-        User u=new User();
+        User u = new User();
         u.setId(id);
         Session session = getSession();
         session.delete(u);
@@ -76,12 +76,10 @@ public class UserServiceImpl  extends BaseService implements UserService {
         StringBuilder queryString = new StringBuilder("from User as u where u.name=:name and u.psword=:password");
 
         Query query = session.createQuery(queryString.toString());
-        users = query.setParameter("name",name)
-                .setParameter("password",password)
-                .list();
-        boolean res=false;
-        if(!users.isEmpty()){
-             res=true;
+        users = query.setParameter("name", name).setParameter("password", password).list();
+        boolean res = false;
+        if (!users.isEmpty()) {
+            res = true;
         }
         return res;
     }
@@ -89,17 +87,16 @@ public class UserServiceImpl  extends BaseService implements UserService {
     @Override
     @Transactional(propagation = Propagation.REQUIRED)
     public User findByName(String name) throws IOException, MyException {
-         //To change body of implemented methods use File | Settings | File Templates.
+        //To change body of implemented methods use File | Settings | File Templates.
         User user = null;
         List<User> users = new ArrayList<User>();
         Session session = getSession();
         StringBuilder queryString = new StringBuilder("from User as u where u.name=:name ");
 
         Query query = session.createQuery(queryString.toString());
-        users = query.setParameter("name",name)
-                .list();
-        if(!users.isEmpty()){
-                user=users.get(0);
+        users = query.setParameter("name", name).list();
+        if (!users.isEmpty()) {
+            user = users.get(0);
         }
         return user;
     }

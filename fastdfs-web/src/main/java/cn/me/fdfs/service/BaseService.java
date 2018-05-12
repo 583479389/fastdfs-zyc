@@ -14,7 +14,7 @@ public abstract class BaseService {
     @Autowired
     protected SessionFactory sessionFactory;
 
-    protected Session getSession(){
+    protected Session getSession() {
         return sessionFactory.getCurrentSession();
     }
 }

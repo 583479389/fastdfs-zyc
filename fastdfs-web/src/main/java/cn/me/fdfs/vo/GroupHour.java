@@ -133,7 +133,7 @@ public class GroupHour {
         this.currentTrunkFileId = currentTrunkFileId;
     }
 
-    @OneToMany(mappedBy = "group",cascade = CascadeType.ALL,fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "group", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
     public List<StorageHour> getStorageList() {
         return storageList;
     }
