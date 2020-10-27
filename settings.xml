@@ -46,7 +46,7 @@ under the License.
 <settings xmlns="http://maven.apache.org/SETTINGS/1.0.0"
           xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
           xsi:schemaLocation="http://maven.apache.org/SETTINGS/1.0.0 http://maven.apache.org/xsd/settings-1.0.0.xsd">
-  <localRepository>repository</localRepository>
+  <!--<localRepository>repository</localRepository>-->
   <!-- localRepository
    | The path to the local repository maven will use to store artifacts.
    |
@@ -157,12 +157,12 @@ under the License.
       <url>http://my.repository.com/repo/path</url>
     </mirror>
      -->
-    <mirror>
+    <!--<mirror>
       <id>nexus-aliyun</id>
       <mirrorOf>*</mirrorOf>
       <name>Nexus aliyun</name>
       <url>http://maven.aliyun.com/nexus/content/groups/public</url>
-    </mirror>
+    </mirror>-->
   </mirrors>
 
   <!-- profiles
