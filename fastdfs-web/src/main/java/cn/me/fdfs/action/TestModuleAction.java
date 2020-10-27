@@ -68,7 +68,7 @@ public class TestModuleAction {
             System.out.println("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
             System.out.println("charset=" + ClientGlobal.g_charset);
             TrackerClient tracker = new TrackerClient();
-            TrackerServer trackerServer = tracker.getConnection();
+            TrackerServer trackerServer = tracker.getTrackerServer();
             StorageServer storageServer = null;
             StorageClient1 client = new StorageClient1(trackerServer, storageServer);
             byte[] bytes = client.download_file1(fileId);
@@ -122,7 +122,7 @@ public class TestModuleAction {
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
-        TrackerServer trackerServer = tracker.getConnection();
+        TrackerServer trackerServer = tracker.getTrackerServer();
         if (trackerServer == null) {
             return;
         }
