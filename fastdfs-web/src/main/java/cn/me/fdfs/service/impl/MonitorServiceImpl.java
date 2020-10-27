@@ -42,7 +42,7 @@ public class MonitorServiceImpl extends BaseService implements MonitorService {
         logger.info("network_timeout=" + ClientGlobal.g_network_timeout + "ms");
         logger.info("charset=" + ClientGlobal.g_charset);
         TrackerClient tracker = new TrackerClient();
-        TrackerServer trackerServer = tracker.getConnection();
+        TrackerServer trackerServer = tracker.getTrackerServer();
         if (trackerServer == null) {
             return result;
         }
